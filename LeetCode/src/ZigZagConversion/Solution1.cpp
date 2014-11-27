@@ -44,12 +44,12 @@ string convert(string s, int nRows) {
 		return strRet;
 	}
 
-	struct strNode {
+	/*struct strNode {
 		char chValue;
 		bool bValid;
 
 		strNode() :chValue('0'), bValid(false) {};
-	};
+	};*/
 
 	int nLen = s.length();
 
@@ -67,25 +67,24 @@ string convert(string s, int nRows) {
 
 	int nColums = nZigZagCount * (nRows-1);
 
-	strNode **matrix = new strNode*[nRows];
+	char **matrix = new char*[nRows];
 	for (int i = 0; i < nRows; ++i) {
-		matrix[i] = new strNode[nColums];
+		matrix[i] = new char[nColums];
+		memset(matrix[i], '\0', nColums);
 	}
 
 	int nPos = 0;
 	for (int i = 0; i < nZigZagCount; ++i) {
 		for (int j = 0; j < nRows; ++j) {
 			if (nPos < nLen) {
-				matrix[j][i*(nRows-1)].chValue = s[nPos];
-				matrix[j][i*(nRows-1)].bValid = true;
+				matrix[j][i*(nRows-1)]= s[nPos];
 				nPos++;
 			}
 		}
 
 		for(int n = 0; n < nRows-2; ++n) {
 			if (nPos < nLen) {
-				matrix[nRows-2-n][i*(nRows-1)+1+n].chValue = s[nPos];
-				matrix[nRows-2-n][i*(nRows-1)+1+n].bValid = true;
+				matrix[nRows-2-n][i*(nRows-1)+1+n] = s[nPos];
 				nPos++;
 			}
 		}
@@ -95,8 +94,8 @@ string convert(string s, int nRows) {
 	nPos = 0;
 	for (int i = 0; i < nRows; ++i) {
 		for (int j = 0; j < nColums; ++j) {
-			if (matrix[i][j].bValid) {
-				strRet[nPos] = matrix[i][j].chValue;
+			if (matrix[i][j] != '\0') {
+				strRet[nPos] = matrix[i][j];
 				nPos++;
 			}
 		}
