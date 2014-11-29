@@ -35,6 +35,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 string convert(string s, int nRows) {
@@ -112,21 +113,54 @@ string convert(string s, int nRows) {
 	return strRet;
 }
 
+
+/**
+ * A triky solution
+ */
+string convert1(string s, int nRows) {
+	int nLen = s.length();
+	if (nRows <= 1 || nLen <= nRows) {
+		return s;
+	}
+
+	int row = 0;
+	int step = 0;
+	vector<string> vecZigzag(nRows, "");
+	for (int i = 0; i < nLen; ++i) {
+		if (row == 0) {
+			step = 1;
+		}
+
+		if (row == nRows-1) {
+			step = -1;
+		}
+
+		vecZigzag[row] += s[i];
+		row += step;
+	}
+
+	string strRet = "";
+	for (int i = 0; i < nRows; ++i) {
+		strRet += vecZigzag[i];
+	}
+	return strRet;
+}
+
 int main() {
 	string strSrc = "PAYPALISHIRING";
-	string strDest = convert(strSrc, 3);
+	string strDest = convert1(strSrc, 3);
 	printf("After zigzag conversion when nRows=3, the string was: %s\r\n", strDest.c_str());
 
-	strDest = convert(strSrc, 4);
+	strDest = convert1(strSrc, 4);
 	printf("After zigzag conversion when nRows=4, the string was: %s\r\n", strDest.c_str());
 
-	strDest = convert(strSrc, 5);
+	strDest = convert1(strSrc, 5);
 	printf("After zigzag conversion when nRows=5, the string was: %s\r\n", strDest.c_str());
 
-	strDest = convert(strSrc, 2);
+	strDest = convert1(strSrc, 2);
 	printf("After zigzag conversion when nRows=2, the string was: %s\r\n", strDest.c_str());
 
-	strDest = convert(strSrc, 1);
+	strDest = convert1(strSrc, 1);
 	printf("After zigzag conversion when nRows=1, the string was: %s\r\n", strDest.c_str());
 	return 0;
 }
