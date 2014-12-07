@@ -16,20 +16,24 @@
 #include <stdlib.h>
 #include <stack>
 #include <iostream>
-#include <set>
 using namespace std;
+
 
 class MinStack {
 public:
     void push(int x) {
     	s.push(x);
-    	sortSet.insert(x);
+
+    	if (min_stack.empty() || x < min_stack.top()) {
+			min_stack.push(x);
+		} else {
+			min_stack.push(min_stack.top());
+		}
     }
 
     void pop() {
-    	multiset<int>::iterator it = sortSet.find(s.top());
-    	sortSet.erase(it);
 		s.pop();
+		min_stack.pop();
     }
 
     int top() {
@@ -37,12 +41,12 @@ public:
     }
 
     int getMin() {
-    	return *sortSet.begin();
+    	return min_stack.top();
     }
 
 private:
     stack<int> s;
-    multiset<int> sortSet;
+    stack<int> min_stack;
 };
 
 int main() {
