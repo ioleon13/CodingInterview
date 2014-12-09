@@ -24,16 +24,19 @@ public:
     void push(int x) {
     	s.push(x);
 
-    	if (min_stack.empty() || x < min_stack.top()) {
+    	//donot push all element into min stack
+    	if (min_stack.empty() || x <= min_stack.top()) {
 			min_stack.push(x);
-		} else {
-			min_stack.push(min_stack.top());
 		}
     }
 
     void pop() {
+    	int temp = s.top();
 		s.pop();
-		min_stack.pop();
+
+		if (temp == min_stack.top()) {
+			min_stack.pop();
+		}
     }
 
     int top() {
