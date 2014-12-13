@@ -36,6 +36,47 @@ bool isPalindrome(string s) {
 		return true;
 	}
 
+	int nBegin = 0;
+	int nEnd = nLen-1;
+	while(1) {
+		if (nBegin >= nEnd) {
+			return true;
+		}
+		char cBegin = s[nBegin];
+		char cEnd = s[nEnd];
+
+		if (isAlphanumeric(cBegin) && isAlphanumeric(cEnd)) {
+			if (toupper(cBegin) == toupper(cEnd)) {
+				if (nBegin+1 == nEnd) {
+					return true;
+				} else {
+					nBegin++;
+					nEnd--;
+					continue;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			if (!isAlphanumeric(cBegin) && !isAlphanumeric(cEnd)) {
+				nBegin++;
+				nEnd--;
+			} else if(!isAlphanumeric(cBegin)) {
+				nBegin++;
+			} else {
+				nEnd--;
+			}
+			continue;
+		}
+	}
+}
+/*
+bool isPalindrome(string s) {
+	int nLen = s.length();
+	if (nLen <= 1) {
+		return true;
+	}
+
 	char cBegin = s[0];
 	char cEnd = s[nLen-1];
 	if (isAlphanumeric(cBegin) && isAlphanumeric(cEnd)) {
@@ -61,10 +102,12 @@ bool isPalindrome(string s) {
 	}
 	return false;
 }
+*/
 
 int main() {
 	//string testStr = "A man, a plan, a canal: Panama";
-	string testStr = "race a car";
+	//string testStr = "race a car";
+	string testStr = "; : .";
 	bool bPalin = isPalindrome(testStr);
 	printf("The string \"%s\" is %s a palindrome.\r\n", testStr.c_str(),
 			bPalin ? "" : "not");
